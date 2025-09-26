@@ -3,17 +3,125 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Café Creativo ☕</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Café Creativo ☕ | Frappes, Crepas, Sándwiches y más</title>
+  <meta name="description" content="Cafetería creativa con frappes, crepas, sándwiches, cafés y limonadas. Talleres, charlas y eventos semanales. ">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    /* =============== RESET + BASE =============== */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    :root{
+      --cafe-900:#3b1f12;   /* fondo oscuro cálido */
+      --cafe-800:#4a2817;
+      --cafe-700:#6B3E26;   /* texto café principal */
+      --cafe-600:#8B4513;   /* títulos */
+      --crema-50:#fff9f3;   /* fondo crema */
+      --crema-100:#fff4ea;  /* secciones claras */
+      --dorado-300:#ffcf91; /* destaque en hero */
+      --dorado-200:#ffba7b; /* botones */
+      --acento-1:#e67e22;   /* naranja cálido */
+      --acento-2:#d35400;   /* naranja profundo */
+      --verde:#27ae60;      /* botones secundarios */
+      --rojo:#c0392b;       /* eventos */
+      --white:#ffffff;
+      --shadow: 0 12px 32px rgba(0,0,0,.12);
+      --radius: 24px;
+    }
+    body{
+      font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      color: var(--cafe-700);
+      background: linear-gradient(180deg, var(--crema-50), #fef6f0 60%, var(--crema-100));
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    /* =============== Burbujas animadas de fondo =============== */
+    .bubble{ position: fixed; border-radius: 50%; filter: blur(70px); z-index: -1; opacity:.9; }
+    .b1{ width:520px; height:520px; background: radial-gradient(circle, rgba(211,84,0,.18), transparent 70%); top:-120px; left:-160px; animation: float 9s ease-in-out infinite; }
+    .b2{ width:420px; height:420px; background: radial-gradient(circle, rgba(230,126,34,.16), transparent 70%); bottom:-120px; right:-120px; animation: float 11s ease-in-out infinite reverse; }
+    .b3{ width:380px; height:380px; background: radial-gradient(circle, rgba(255,207,145,.18), transparent 70%); top:40%; right:10%; animation: float 13s ease-in-out infinite alternate; }
+    @keyframes float { from{ transform: translateY(0)} to{ transform: translateY(35px)} }
+
+    /* =============== NAVBAR =============== */
+    header{ position: sticky; top:0; z-index: 1000; backdrop-filter: blur(12px); background: rgba(255,255,255,.7); box-shadow: 0 6px 20px rgba(0,0,0,.06); }
+    .nav{ max-width: 1200px; margin: 0 auto; padding: 14px 20px; display:flex; align-items:center; justify-content:space-between; }
+    .logo{ display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.5px; color: var(--acento-2); font-size: 1.6rem; text-decoration: none; }
+    .logo b{ color: var(--acento-2); }
+    .nav ul{ list-style:none; display:flex; gap:26px; margin:0; padding:0; }
+    .nav a{ text-decoration:none; font-weight:600; color: var(--cafe-700); transition: color .25s; }
+    .nav a:hover{ color: var(--acento-2); }
+
+    /* =============== HERO =============== */
+    .hero{ position: relative; min-height: 92vh; display:grid; place-items:center; text-align:center; overflow:hidden; }
+    .hero::before{ content:""; position:absolute; inset:0; background: linear-gradient(180deg, rgba(59,31,18,.65), rgba(74,40,23,.55)); z-index:0; }
+    .hero-bg{ position:absolute; inset:0; background: url('https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?q=80&w=1920&auto=format&fit=crop') center/cover no-repeat; z-index:-1; filter: saturate(1.05) contrast(1.1); }
+    .hero-content{ position: relative; z-index:1; max-width: 950px; padding: 0 24px; color: #fff4e6; }
+    .hero h1{ font-size: clamp(2.4rem, 6vw, 4rem); line-height:1.1; margin-bottom: 14px; color: var(--dorado-300); text-shadow: 0 8px 26px rgba(0,0,0,.6); }
+    .hero p{ font-size: clamp(1.05rem, 1.7vw, 1.3rem); opacity:.98; }
+    .cta{ margin-top:28px; display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+    .btn{ appearance:none; border:none; border-radius: 999px; padding: 14px 26px; font-weight:700; cursor:pointer; transition: transform .2s, box-shadow .2s, background .2s; text-decoration:none; }
+    .btn-primary{ background: linear-gradient(135deg, var(--acento-1), var(--acento-2)); color: white; box-shadow: 0 12px 28px rgba(211,84,0,.45); }
+    .btn-primary:hover{ transform: translateY(-2px); box-shadow: 0 18px 36px rgba(211,84,0,.55); }
+    .btn-ghost{ background: rgba(255,255,255,.15); color:#fff; backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,.3); }
+    .btn-ghost:hover{ background: rgba(255,255,255,.22); }
+
+    /* =============== SECCIÓN MENÚ =============== */
+    .section{ padding: 96px 20px; }
+    .wrap{ max-width: 1200px; margin: 0 auto; }
+    .section-title{ text-align:center; margin-bottom: 26px; color: var(--cafe-600); font-size: clamp(1.8rem, 3vw, 2.6rem); }
+    .section-sub{ text-align:center; margin-bottom: 46px; color: var(--cafe-700); opacity:.9; }
+
+    .grid{ display:grid; grid-template-columns: repeat(12, 1fr); gap: 22px; }
+    .card{ grid-column: span 4; background: rgba(255,255,255,.78); backdrop-filter: blur(10px); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); position: relative; overflow: hidden; transform: translateY(0); transition: transform .25s, box-shadow .25s; }
+    .card:hover{ transform: translateY(-8px) scale(1.01); box-shadow: 0 20px 40px rgba(0,0,0,.12); }
+    .card::after{ content:""; position:absolute; width:120px; height:120px; background: radial-gradient(circle, rgba(211,84,0,.18), transparent 60%); border-radius:50%; top:-40px; right:-40px; filter: blur(16px); }
+    .chip{ display:inline-block; padding:6px 12px; border-radius:999px; background: #fff0e6; color: var(--acento-2); font-weight:700; font-size:.82rem; margin-bottom:10px; }
+    .card h3{ margin: 6px 0 8px; color: var(--cafe-600); font-size: 1.4rem; }
+    .card p{ margin: 0 0 14px; color: var(--cafe-700); }
+    .pill{ display:inline-flex; align-items:center; gap:8px; padding:8px 14px; border-radius:999px; background: #e9f8ef; color:#146b37; font-weight:700; font-size:.9rem; }
+    .card .actions{ margin-top: 14px; display:flex; gap:10px; flex-wrap: wrap; }
+
+    /* Responsivo grid */
+    @media (max-width: 1024px){ .card{ grid-column: span 6; } }
+    @media (max-width: 640px){ .card{ grid-column: span 12; } }
+
+    /* =============== EVENTOS =============== */
+    .events{ display:grid; grid-template-columns: repeat(12, 1fr); gap: 22px; }
+    .event{ grid-column: span 4; background: #ffffffc0; backdrop-filter: blur(8px); border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow); transition: transform .25s; }
+    .event:hover{ transform: translateY(-6px); }
+    .event h4{ margin:0 0 6px; color:#9e2b20; font-size:1.2rem; }
+    .event time{ display:block; color:#9e2b20; font-weight:700; margin-bottom:6px; }
+    .event p{ margin:0; color: var(--cafe-700); }
+
+    /* =============== CTA flotante (Pedidos / WhatsApp) =============== */
+    .fab{ position: fixed; right: 20px; bottom: 24px; display:flex; flex-direction:column; gap:12px; z-index: 900; }
+    .fab a{ display:inline-flex; align-items:center; gap:10px; padding: 12px 16px; border-radius: 999px; text-decoration:none; font-weight:800; box-shadow: var(--shadow); transition: transform .2s; }
+    .fab a:hover{ transform: translateY(-2px); }
+    .fab .wa{ background: #25D366; color: white; }
+    .fab .top{ background: linear-gradient(135deg, var(--acento-1), var(--acento-2)); color:white; }
+
+    /* =============== FOOTER =============== */
+    footer{ background: var(--cafe-900); color: var(--crema-50); text-align:center; padding: 56px 20px; margin-top: 30px; }
+    footer .wrap{ max-width: 1000px; }
+
+    /* =============== Aparición al hacer scroll =============== */
+    .reveal{ opacity: 0; transform: translateY(18px); transition: .6s ease; }
+    .reveal.show{ opacity: 1; transform: translateY(0); }
+  </style>
 </head>
 <body>
+  <!-- Burbujas animadas -->
+  <div class="bubble b1"></div>
+  <div class="bubble b2"></div>
+  <div class="bubble b3"></div>
 
-  <!-- 🔝 Barra de navegación -->
+  <!-- NAVBAR -->
   <header>
-    <nav>
-      <h1 class="logo">☕ Café Creativo</h1>
+    <nav class="nav">
+      <a href="#inicio" class="logo">☕ <b>Café Creativo</b></a>
       <ul>
-        <li><a href="#inicio">Inicio</a></li>
         <li><a href="#menu">Menú</a></li>
         <li><a href="#eventos">Eventos</a></li>
         <li><a href="#contacto">Contacto</a></li>
@@ -21,73 +129,154 @@
     </nav>
   </header>
 
-  <!-- 🏡 Sección principal -->
+  <!-- HERO -->
   <section id="inicio" class="hero">
+    <div class="hero-bg" aria-hidden="true"></div>
     <div class="hero-content">
-      <h2>Bienvenido a Café Cachito de Luna Cafebrería</h2>
-      <p>El lugar perfecto para disfrutar frappes, crepas y buena compañía ☕✨</p>
-      <a href="#menu" class="btn">Ver Menú</a>
-    </div>
-  </section>
-
-  <!-- 🍰 Menú -->
-  <section id="menu" class="menu-section">
-    <h2>🍽️ Nuestro Menú</h2>
-    <div class="menu-container">
-      <div class="card">
-        <h3>Frappes</h3>
-        <p>Chocolate, caramelo, vainilla, moka…</p>
-        <button>Ver más</button>
-      </div>
-      <div class="card">
-        <h3>Crepas</h3>
-        <p>Dulces, saladas, frutales y especiales 🍓</p>
-        <button>Ver más</button>
-      </div>
-      <div class="card">
-        <h3>Cafés</h3>
-        <p>Americano, espresso, latte, capuccino ☕</p>
-        <button>Ver más</button>
-      </div>
-      <div class="card">
-        <h3>Sandwiches</h3>
-        <p>Clásicos, vegetarianos y gourmet 🥪</p>
-        <button>Ver más</button>
-      </div>
-      <div class="card">
-        <h3>Bebidas frías</h3>
-        <p>Limonadas, smoothies y tés 🍋</p>
-        <button>Ver más</button>
+      <h1>Frappes, Crepas y Buenas Ideas</h1>
+      <p>El punto de encuentro para disfrutar sabores increíbles y actividades creativas: talleres, charlas y open mic cada semana.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="#menu">Ver Menú</a>
+        <a class="btn btn-ghost" href="#eventos">Próximos Eventos</a>
       </div>
     </div>
   </section>
 
-  <!-- 🎉 Eventos -->
-  <section id="eventos" class="eventos-section">
-    <h2>📅 Próximos Eventos</h2>
-    <div class="eventos">
-      <div class="evento">
-        <h3>Taller de Barismo</h3>
-        <p>Aprende a preparar café como un profesional - 15 Octubre</p>
-      </div>
-      <div class="evento">
-        <h3>Charla “Creatividad y Café”</h3>
-        <p>Evento gratuito para mentes creativas - 22 Octubre</p>
-      </div>
-      <div class="evento">
-        <h3>Open Mic & Café</h3>
-        <p>Música, poesía y arte con un buen café - 29 Octubre</p>
+  <!-- MENÚ -->
+  <section id="menu" class="section">
+    <div class="wrap">
+      <h2 class="section-title reveal">🍽️ Nuestro Menú</h2>
+      <p class="section-sub reveal">Frappes, crepas, cafés, sándwiches y limonadas hechas al momento. Opciones clásicas y especiales de temporada.</p>
+
+      <div class="grid">
+        <!-- Frappes -->
+        <article class="card reveal">
+          <span class="chip">Frappes</span>
+          <h3>Chocolate / Caramelo / Vainilla / Moka</h3>
+          <p>Base cremosa, hielo frappé y toppings a elección. Endulza tu momento.</p>
+          <div class="pill">Desde $65</div>
+          <div class="actions">
+            <a class="btn btn-primary" href="#contacto">Pedir ahora</a>
+            <a class="btn" style="background:#fff0e6;color:var(--acento-2)" href="#">Ver sabores</a>
+          </div>
+        </article>
+
+        <!-- Crepas -->
+        <article class="card reveal">
+          <span class="chip">Crepas</span>
+          <h3>Dulces, Saladas y Especiales</h3>
+          <p>Nutella, frutos rojos, jamón & queso, pollo pesto y más combinaciones.</p>
+          <div class="pill">Desde $70</div>
+          <div class="actions">
+            <a class="btn btn-primary" href="#contacto">Pedir ahora</a>
+            <a class="btn" style="background:#fff0e6;color:var(--acento-2)" href="#">Ver combinaciones</a>
+          </div>
+        </article>
+
+        <!-- Cafés -->
+        <article class="card reveal">
+          <span class="chip">Cafés</span>
+          <h3>Americano, Espresso, Latte, Capuccino</h3>
+          <p>Grano seleccionado y tostado medio. Alternativas con leches vegetales.</p>
+          <div class="pill">Desde $35</div>
+          <div class="actions">
+            <a class="btn btn-primary" href="#contacto">Pedir ahora</a>
+            <a class="btn" style="background:#fff0e6;color:var(--acento-2)" href="#">Ver tamaños</a>
+          </div>
+        </article>
+
+        <!-- Sándwiches -->
+        <article class="card reveal">
+          <span class="chip">Sándwiches</span>
+          <h3>Clásicos, Vegetarianos y Gourmet</h3>
+          <p>Pan artesanal, vegetales frescos y salsas caseras. Ideal para cualquier hora.</p>
+          <div class="pill">Desde $65</div>
+          <div class="actions">
+            <a class="btn btn-primary" href="#contacto">Pedir ahora</a>
+            <a class="btn" style="background:#fff0e6;color:var(--acento-2)" href="#">Ver opciones</a>
+          </div>
+        </article>
+
+        <!-- Limonadas y frías -->
+        <article class="card reveal">
+          <span class="chip">Bebidas frías</span>
+          <h3>Limonadas, Smoothies y Tés</h3>
+          <p>Refrescantes y frutales. Perfectas para acompañar tus charlas.</p>
+          <div class="pill">Desde $30</div>
+          <div class="actions">
+            <a class="btn btn-primary" href="#contacto">Pedir ahora</a>
+            <a class="btn" style="background:#fff0e6;color:var(--acento-2)" href="#">Ver bebidas</a>
+          </div>
+        </article>
+
+        <!-- Especial de temporada -->
+        <article class="card reveal">
+          <span class="chip">Especial</span>
+          <h3>Edición de Temporada</h3>
+          <p>Sabores limitados inspirados en la estación. Pregunta por el especial de hoy.</p>
+          <div class="pill">Limited</div>
+          <div class="actions">
+            <a class="btn btn-primary" href="#contacto">Pedir ahora</a>
+            <a class="btn" style="background:#fff0e6;color:var(--acento-2)" href="#">Descubrir</a>
+          </div>
+        </article>
       </div>
     </div>
-    <button class="btn-secundario">Ver todos los eventos</button>
   </section>
 
-  <!-- 📍 Contacto -->
+  <!-- EVENTOS -->
+  <section id="eventos" class="section" style="background: linear-gradient(180deg, var(--crema-100), #fcefe3 80%, #fff)">
+    <div class="wrap">
+      <h2 class="section-title reveal">📅 Próximos Eventos</h2>
+      <p class="section-sub reveal">Talleres, charlas y actividades creativas. ¡Súmate a la comunidad!</p>
+
+      <div class="events">
+        <article class="event reveal">
+          <h4>Taller de Barismo</h4>
+          <time>15 Oct · 6:00 PM</time>
+          <p>Aprende bases de extracción, texturizado de leche y arte latte.</p>
+        </article>
+        <article class="event reveal">
+          <h4>Charla “Creatividad & Café”</h4>
+          <time>22 Oct · 7:00 PM</time>
+          <p>Invitados locales comparten procesos creativos y networking.</p>
+        </article>
+        <article class="event reveal">
+          <h4>Open Mic & Café</h4>
+          <time>29 Oct · 8:00 PM</time>
+          <p>Música, poesía y stand-up. Micrófono abierto para la comunidad.</p>
+        </article>
+      </div>
+
+      <div style="text-align:center; margin-top:28px" class="reveal">
+        <a class="btn btn-primary" href="#contacto">Quiero participar</a>
+        <a class="btn" style="background:#ffe7d1;color:var(--acento-2)" href="#">Ver todos</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
   <footer id="contacto">
-    <h2>📍 Visítanos</h2>
-    <p>Calle 123, Ciudad Creativa, México 🇲🇽</p>
-    <p>📞 55 1234 5678 | 📧 info@cafecafe.com</p>
+    <div class="wrap">
+      <h2 class="section-title" style="color:#ffcf91; margin-bottom:10px">📍 Visítanos</h2>
+      <p>Calle 123, Ciudad Creativa, México 🇲🇽</p>
+      <p>📞 55 1234 5678 · 📧 hola@cafecreativo.mx</p>
+      <p style="opacity:.85; margin-top:10px">Abierto: Lun–Sáb 9:00–21:00 · Dom 10:00–18:00</p>
+    </div>
   </footer>
 
+  <!-- FAB -->
+  <div class="fab" aria-label="Acciones rápidas">
+    <a class="wa" href="https://wa.me/5215512345678" target="_blank" rel="noopener">🛵 Pedidos WhatsApp</a>
+    <a class="top" href="#inicio">⬆️ Arriba</a>
+  </div>
+
+  <script>
+    // Aparición suave al hacer scroll
+    const obs = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('show'); });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+  </script>
 </body>
 </html>
